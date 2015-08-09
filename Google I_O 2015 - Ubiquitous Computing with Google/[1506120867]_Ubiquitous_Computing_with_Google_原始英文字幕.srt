@@ -1299,45 +1299,47 @@ to independently coordinate.
 
 307
 00:13:20,220 --> 00:13:23,430
-
-
-
-
-
-
-
+媒体浏览服务持有所有媒体资源的树结构
 The media browser service maintains a tree structure
 
 308
 00:13:23,430 --> 00:13:26,860
+比如一个音乐列表
 of all your media, such as a collection of music.
 
 309
 00:13:26,860 --> 00:13:31,290
+可以在本地传输和存储
 And this could be either streamed or stored locally.
 
 310
 00:13:31,290 --> 00:13:33,950
+媒体回话记录你的应用
 Media Session tracks the current state
 
 311
 00:13:33,950 --> 00:13:37,200
+正在播放什么
 of what your app is playing.
 
 312
 00:13:37,200 --> 00:13:39,160
+有趣的是
 Now, here's where it gets interesting.
 
 313
 00:13:39,160 --> 00:13:41,350
+所有的东西 不管是手机app
 Everything, whether it's your phone app,
 
 314
 00:13:41,350 --> 00:13:43,730
+Android TV Android Auto
 Android TV, Android Auto-- they're
 
 315
 00:13:43,730 --> 00:13:46,960
+都是媒体浏览服务和媒体会话的客户
 all consumers of the Media Browser Service and Media
 
 316
@@ -1346,138 +1348,172 @@ Session.
 
 317
 00:13:48,840 --> 00:13:50,620
+比如你的手机和
 Let's say you've got your phone hooked up
 
 318
 00:13:50,620 --> 00:13:54,160
+Android Auto绑定了
 to Android Auto like this.
 
 319
 00:13:54,160 --> 00:13:56,710
+左边那个app
 So the companion app on the left, that's
 
 320
 00:13:56,710 --> 00:13:58,640
+也就是Android Auto端应用
 the Android Auto Companion app.
 
 321
 00:13:58,640 --> 00:14:02,170
+这个app负责绘制用户界面
 And that app is responsible for drawing the user interface
 
 322
 00:14:02,170 --> 00:14:05,660
+在车载终端上显示图像
 and sending those pixels to the vehicle display.
 
 323
 00:14:05,660 --> 00:14:10,010
+同时 链接到媒体浏览服务
 This app also connects to the Media Browser Service.
 
 324
 00:14:10,010 --> 00:14:11,970
+向服务发送查询请求
 And it queries it to get the tree structure
 
 325
 00:14:11,970 --> 00:14:14,280
+以获得你的app的媒体库的树结构
 of your apps media library.
 
 326
 00:14:14,280 --> 00:14:16,940
+车主通过触屏或者语音搜索
 The driver of the car then selects the song,
 
 327
 00:14:16,940 --> 00:14:19,630
+切歌
 either the touch screen or through voice search,
 
 328
 00:14:19,630 --> 00:14:22,390
+然后Android Auto就会通过媒体会话
 and then Android Auto will use Media Session
 
 329
 00:14:22,390 --> 00:14:24,560
+运行回调函数
 to run your callbacks.
 
 330
 00:14:24,560 --> 00:14:27,810
+这在Android Auto上非常棒 因为作为开发者
 And this is great on Android Auto because as a developer,
 
 331
 00:14:27,810 --> 00:14:30,010
+你再也不用担心如何才让用户接口
 you never have to worry about the details of making
 
 332
 00:14:30,010 --> 00:14:31,980
+在驾驶期间更安全
 a user interface that's safe for driving.
 
 333
 00:14:31,980 --> 00:14:34,270
+Android把这些都做好了
 Android Auto takes care of all of that for you.
 
 334
 00:14:34,270 --> 00:14:37,710
+只需要一个可访问的音乐服务 用来传输数据
 It just needs the music service available to get the data
 
 335
 00:14:37,710 --> 00:14:40,460
+和控制回调
 and handle playback.
 
 336
 00:14:40,460 --> 00:14:42,900
+左边这个app 还可以是别的东西
 And the app on the left, it could be anything.
 
 337
 00:14:42,900 --> 00:14:44,360
+可以是Android Wear
 It could be Android Wear .
 
 338
 00:14:44,360 --> 00:14:47,530
+可以是你某个app上的一个Activity
 It could be just another activity in your same app
 
 339
 00:14:47,530 --> 00:14:49,110
+这个app同时操作Android TV
 handling Android TV.
 
 340
 00:14:49,110 --> 00:14:51,380
+或者是Google Cast
 Or maybe it's handling Google Cast.
 
 341
 00:14:51,380 --> 00:14:54,660
+这些都行 以为他的设置机制
 Any of these will work because of how it's set up.
 
 342
 00:14:54,660 --> 00:14:57,880
+我们不需要每次添加一个新功能的时候
 We don't have to rewire the app each and every time we
 
 343
 00:14:57,880 --> 00:14:59,370
+都要去做适配
 add a new form factor.
 
 344
 00:14:59,370 --> 00:15:02,060
+相反 我们有了这个稳定的中央服务
 Instead, we have this solid central service
 
 345
 00:15:02,060 --> 00:15:05,480
+可以轻松的扩展任何功能
 that extends easily to each new form factor.
 
 346
 00:15:05,480 --> 00:15:07,400
+你只需要简单地访问音乐服务
 You simply access the music service
 
 347
 00:15:07,400 --> 00:15:12,424
+为任何上下文为你的用户
 for any context that makes sense for your user.
 
 348
 00:15:12,424 --> 00:15:13,840
+回想一下我之前说的
 Now, remember what I said earlier.
 
 349
 00:15:13,840 --> 00:15:16,080
+这当然不是惟一的方式
 This is certainly not the only way
 
 350
 00:15:16,080 --> 00:15:18,460
+实现通用app 或者惟一的有用的通用app
 to make a ubiquitous app or the only ubiquitous app that
 
 351
@@ -1486,42 +1522,52 @@ makes sense.
 
 352
 00:15:19,380 --> 00:15:20,810
+他给你提供了一个想法
 It simply gives you an idea of how
 
 353
 00:15:20,810 --> 00:15:23,140
+如何构建一个高扩展性的应用
 to structure a common app such as a music
 
 354
 00:15:23,140 --> 00:15:25,210
+比如一个音乐播放器
 player for extensibility.
 
 355
 00:15:25,210 --> 00:15:27,410
+你是用的定制的API
 The specific APIs you use are of course
 
 356
 00:15:27,410 --> 00:15:29,440
+完全取决于你的实际情况
 going to depend on your use case,
 
 357
 00:15:29,440 --> 00:15:32,330
+你如何实现我们谈到的最佳实践
 how you implement the best practices we talked about,
 
 358
 00:15:32,330 --> 00:15:34,909
+还有你的model和controller放在哪
 and where you keep your model and your controller.
 
 359
 00:15:34,909 --> 00:15:35,950
+可能在手机终端
 It could be on the phone.
 
 360
 00:15:35,950 --> 00:15:37,070
+也可能在云上
 It could be in the cloud.
 
 361
 00:15:37,070 --> 00:15:39,320
+可以在任何有必要的地方
 It could be wherever that make sense for your service.
 
 362
@@ -1530,58 +1576,72 @@ It could be wherever that make sense for your service.
 
 363
 00:15:41,670 --> 00:15:44,420
+我们来看一下一些可参考的例子
 Let's take a look at a few examples of apps
 
 364
 00:15:44,420 --> 00:15:46,450
+用户可以使用的
 shipped and available to users that are
 
 365
 00:15:46,450 --> 00:15:50,420
+在今天做这样的事的
 doing this kind of thing today.
 
 366
 00:15:50,420 --> 00:15:55,600
+iHeartRadio 为用户提供广播 音乐 新闻 博客 体育
 iHeartRadio-- it brings radio, music, news, podcasts, sports,
 
 367
 00:15:55,600 --> 00:15:57,220
+等等
 and more to users.
 
 368
 00:15:57,220 --> 00:15:59,432
+你甚至可以建立你自己的频道
 And you can even make your own custom stations.
 
 369
 00:15:59,432 --> 00:16:00,140
+使用非常方便
 It's easy to use.
 
 370
 00:16:00,140 --> 00:16:00,723
+也是免费的
 And it's free.
 
 371
 00:16:00,723 --> 00:16:01,860
+我很喜欢这个app
 I love this app.
 
 372
 00:16:01,860 --> 00:16:03,790
+最重要的一点 也是我最喜欢的地方
 And best of all-- my favorite thing--
 
 373
 00:16:03,790 --> 00:16:07,350
+我可以随时随地使用它
 it's available wherever I go.
 
 374
 00:16:07,350 --> 00:16:08,510
+在Android Wear上
 It's on Android Wear.
 
 375
 00:16:08,510 --> 00:16:10,110
+在Android TV上
 You can Cast to your TV.
 
 376
 00:16:10,110 --> 00:16:11,650
+甚至是在车上
 You can even use it in the car.
 
 377
@@ -1590,26 +1650,32 @@ You can even use it in the car.
 
 378
 00:16:14,320 --> 00:16:16,090
+还有一个app WhatsApp
 Another great app is WhatsApp messenger.
 
 379
 00:16:16,090 --> 00:16:18,010
+发送消息 照片
 It's great for messaging, sending photos,
 
 380
 00:16:18,010 --> 00:16:20,200
+讨论组 等等等等
 group chat, and a lot more.
 
 381
 00:16:20,200 --> 00:16:23,110
+很久之前在手机上就有这个app了
 And it's been available for phones for a long while.
 
 382
 00:16:23,110 --> 00:16:26,330
+现在Android Wear和Android Auto上也有了
 And it's also available on Android Wear and Android Auto.
 
 383
 00:16:26,330 --> 00:16:28,950
+你看懂这个模式了吗
 Do you see the pattern here?
 
 384
@@ -1970,6 +2036,7 @@ in the sandbox.
 
 473
 00:20:04,520 --> 00:20:06,480
+谢谢
 Thank you very much.
 
 474
